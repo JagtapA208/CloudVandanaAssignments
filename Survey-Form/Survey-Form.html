@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <title>Survey Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="Survey-Form.js"></script>
+
+</head>
+<body>
+    <div class="container bg-primary p-3">
+
+        <div class="text-center">
+            <h1 class="text-light">Customer Survey Form</h1>
+        </div>
+        
+        <div class="card border-dark text-bg-light container mt-2 w-50">
+            <form id="surveyForm">
+                <div class="form-row mt-3">
+                    <div class="form-group col-md-6">
+                        <label for="firstName">First Name</label>
+                        <input type="text" class="form-control" id="firstName" required>
+                    </div>
+    
+                    <div class="form-group col-md-6">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" required>
+                    </div>
+                </div>
+    
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="dob">Date of Birth</label>
+                        <input type="date" class="form-control" id="dob" required>
+                    </div>
+        
+                    <div class="form-group col-md-6">
+                        <label for="country">Country</label>
+                        <select class="form-control" id="country" required>
+                            <option value="india">INDIA</option>
+                            <option value="usa">USA</option>
+                            <option value="canada">CANADA</option>
+                        </select>
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <label>Gender</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="male" value="Male">
+                        <label class="form-check-label" for="male">Male</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="female" value="Female">
+                        <label class="form-check-label" for "female">Female</label>
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <label for="profession">Profession</label>
+                    <input type="text" class="form-control" id="profession" required>
+                </div>
+    
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" required>
+                </div>
+    
+                <div class="form-group">
+                    <label for="mobile">Mobile Number</label>
+                    <input type="tel" class="form-control" id="mobile" required>
+                </div>
+    
+                <button type="submit" class="btn btn-primary mb-3">Submit</button>
+                <button type="button" class="btn btn-secondary mb-3" id="resetButton">Reset</button>
+            </form>
+        </div>
+        
+    </div>
+
+    <!-- Modal for displaying form values -->
+    <div class="modal" tabindex="-1" role="dialog" id="formValuesModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Survey Form Values</h5>
+                </div>
+
+                <div class="modal-body" id="formValues">
+                    <!-- Form values will be displayed here -->
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModal">Close</button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#surveyForm").submit(function (e) {
+                e.preventDefault();
+                
+                const formValues = {
+                    "First Name": $("#firstName").val(),
+                    "Last Name": $("#lastName").val(),
+                    "Date of Birth": $("#dob").val(),
+                    "Country": $("#country option:selected").text(),
+                    "Gender": $("input[type=checkbox]:checked").map(function () {
+                        return $(this).val();
+                    }).get().join(", "),
+                    "Profession": $("#profession").val(),
+                    "Email": $("#email").val(),
+                    "Mobile Number": $("#mobile").val(),
+                };
+
+                let formValuesHtml = "<ul>";
+                for (const [label, value] of Object.entries(formValues)) {
+                    formValuesHtml += `<li><strong>${label}:</strong> ${value}</li>`;
+                }
+
+                formValuesHtml += "</ul>";
+                $("#formValues").html(formValuesHtml);
+
+                $("#formValuesModal").modal("show");
+            });
+
+            $("#resetButton").click(function () {
+                $("#surveyForm")[0].reset();
+            });
+
+            $("#closeModal").click(function () {
+                $("#surveyForm")[0].reset();
+            });
+   
+        });
+    </script>
+</body>
+</html>
